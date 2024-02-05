@@ -1,0 +1,34 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: [ 'controller.service_arguments' ]
+
+    _instanceof:
+        App\UseCase\UseCaseInterface:
+            lazy: true
+            tags:
+                - 'use_case_interface'
+
+        App\UseCase\UseCaseValidatorInterface:
+            lazy: true
+            tags:
+                - 'use_case_validator_interface'
+
+#    App\UseCase\UseCaseFactory:
+#        $useCases: !tagged_iterator 'use_case_interface'
+
+#    App\UseCase\UseCaseValidatorFactory:
+#        $useCaseValidators: !tagged_iterator 'use_case_validator_interface'
